@@ -1,0 +1,70 @@
+{
+  "project": {
+    "name": "musik-player",
+    "plugins": [
+      {
+        "name": "mysql",
+        "service": "mysql",
+        "variables": [
+          {
+            "key": "DB_CONNECTION",
+            "value": "mysql"
+          },
+          {
+            "key": "DB_HOST",
+            "value": "<RAILWAY_DB_HOST>"
+          },
+          {
+            "key": "DB_PORT",
+            "value": "3306"
+          },
+          {
+            "key": "DB_DATABASE",
+            "value": "<RAILWAY_DB_NAME>"
+          },
+          {
+            "key": "DB_USERNAME",
+            "value": "<RAILWAY_DB_USER>"
+          },
+          {
+            "key": "DB_PASSWORD",
+            "value": "<RAILWAY_DB_PASSWORD>"
+          }
+        ]
+      }
+    ]
+  },
+  "deploy": {
+    "builds": [
+      {
+        "type": "npm",
+        "path": "./",
+        "command": "npm install && npm run build"
+      },
+      {
+        "type": "php",
+        "path": "./",
+        "command": "composer install --optimize-autoloader --no-dev && php artisan migrate --force && php artisan config:cache"
+      }
+    ],
+    "start": "php artisan serve --host=0.0.0.0 --port=$PORT"
+  },
+  "variables": [
+    {
+      "key": "APP_NAME",
+      "value": "MusikPlayer"
+    },
+    {
+      "key": "APP_ENV",
+      "value": "production"
+    },
+    {
+      "key": "APP_KEY",
+      "value": "<GENERATE_APP_KEY>"
+    },
+    {
+      "key": "APP_URL",
+      "value": "https://musik-player-production.up.railway.app"
+    }
+  ]
+}
